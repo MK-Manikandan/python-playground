@@ -1,60 +1,62 @@
-print("╔═════════════════╗")
-print("║  TIC TAC TOE 🕹 ║")
-print("╚═════════════════╝")
+import os
+_=os.system("cls" if os.name=="nt" else "clear")
+
+#game header
+print("\t╔═════════════════╗")
+print("\t║   TIC TAC TOE   ║")
+print("\t╚═════════════════╝")
 
 #board dictionary
 board={
-    "tl": " ", "t": " ", "tr": " ",
-    "ml": " ", "m": " ", "mr": " ",
-    "bl": " ", "b": " ", "br": " "
+    "1": " ", "2": " ", "3": " ",
+    "4": " ", "5": " ", "6": " ",
+    "7": " ", "8": " ", "9": " "
     }
 
-#printing out sample board with position
+#Printing out the sample board with position name
 print("\nPosition names:")
-print("╔═══╦═══╦═══╗")
-print(f"║tl ║ t ║ tr║")
-print("╠═══╬═══╬═══╣")
-print(f"║ml ║ m ║ mr║")
-print("╠═══╬═══╬═══╣")
-print(f"║bl ║ b ║ br║")
-print("╚═══╩═══╩═══╝")
-print("tl:top left\tt:top   \ttr:top right\n\
-ml:middle left\tm:middle\tmr:middle right\n\
-bl:bottom left\tb:bottom\tbr:bottom right\n\n")
+print("\t╔═══╦═══╦═══╗")
+print(f"\t║ 1 ║ 2 ║ 3 ║")
+print("\t╠═══╬═══╬═══╣")
+print(f"\t║ 4 ║ 5 ║ 6 ║")
+print("\t╠═══╬═══╬═══╣")
+print(f"\t║ 7 ║ 8 ║ 9 ║")
+print("\t╚═══╩═══╩═══╝")
+os.system("pause")
 
 #function to print out the board
 def display_board():
-    print("╔═══╦═══╦═══╗")
-    print(f"║ {board["tl"]} ║ {board["t"]} ║ {board["tr"]} ║")
-    print("╠═══╬═══╬═══╣")
-    print(f"║ {board["ml"]} ║ {board["m"]} ║ {board["mr"]} ║")
-    print("╠═══╬═══╬═══╣")
-    print(f"║ {board["bl"]} ║ {board["b"]} ║ {board["br"]} ║")
-    print("╚═══╩═══╩═══╝")
+    print("\tSample Board\t Main Board")
+    print("\t╔═══╦═══╦═══╗\t╔═══╦═══╦═══╗")
+    print(f"\t║ 1 ║ 2 ║ 3 ║\t║ {board["1"]} ║ {board["2"]} ║ {board["3"]} ║")
+    print("\t╠═══╬═══╬═══╣\t╠═══╬═══╬═══╣")
+    print(f"\t║ 4 ║ 5 ║ 6 ║\t║ {board["4"]} ║ {board["5"]} ║ {board["6"]} ║")
+    print("\t╠═══╬═══╬═══╣\t╠═══╬═══╬═══╣")
+    print(f"\t║ 7 ║ 8 ║ 9 ║\t║ {board["7"]} ║ {board["8"]} ║ {board["9"]} ║")
+    print("\t╚═══╩═══╩═══╝\t╚═══╩═══╩═══╝")
 
+#Main loop
 turn = "X"
 for i in range(9):
+    _=os.system("cls" if os.name=="nt" else "clear")
+
+    display_board()
     while True:
-        inp=input(f"{turn}\'s turn.\nEnter your position:")
+        inp=input(f"Current turn: {turn}.\nEnter your position:")
         if inp not in board.keys():
-            print(f"Wrong input. Enter any of these.\n{list(board.keys())}")
+            print(f"\nWrong input. Enter a correct position name.\n")
             continue
         else:
             break
     board[inp]=turn
-    display_board()
     if turn == "X":
         turn = "O"
     else:
         turn = "X"
-
-
+os.system("pause")
 
 """
 Updates to do
---find a good output method or make it look good
 --make rules
 --add rule such that value cannot be entered in the same cell twice
---make input error handling------done
---use os module to update the same page instead of entering in new line
 """

@@ -18,7 +18,8 @@ Mini games- Contains small games I have tried making.
 
 Make sure you have Python 3 installed.
 
-Run it in idle, or in bash- python script.py
+Run it in cmd->
+python script.py
 
 ## 📝 License
 
