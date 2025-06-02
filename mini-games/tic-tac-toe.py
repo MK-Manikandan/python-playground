@@ -46,8 +46,10 @@ check_dict={
 
 #function to check if any rows or columns or diagonals are equal
 def check_if_equal(row_name):
-    if (board[check_dict[row_name[0]]] == board[check_dict[row_name[1]]]) and (board[check_dict[row_name[0]]] == board[check_dict[row_name[2]]]):
+    if (board[check_dict[row_name][0]] == board[check_dict[row_name][1]]) and (board[check_dict[row_name][0]] == board[check_dict[row_name][2]]):
         return True
+    else:
+        return False
 
 #function to find which all row and column to check for
 def check_dict_func(pos):
@@ -58,10 +60,14 @@ def check_dict_func(pos):
                 return decision
         else:
             continue
+    return False
 
 #final function to run, if won
 def won(turn):
-    pass
+    _=os.system("cls" if os.name=="nt" else "clear")
+    display_board()
+    print(f"\nCongratulations!!!\n{turn} have won\n")
+    return True
 
 #Main loop
 turn = "X"
@@ -72,23 +78,36 @@ for i in range(9):
     while True:
         inp=input(f"Current turn: {turn}.\nEnter your position:")
         if inp not in board.keys():
-            print(f"\nWrong input. Enter a correct position name.\n")
+            print("\nWrong input. Enter a correct position name.")
+            continue
+        elif board[inp] != " ":
+            print(f"\nPosition {inp} in board is not empty, enter an empty position.")
             continue
         else:
             break
     board[inp]=turn
     checking = check_dict_func(inp)
+    finish = False
     if checking:
-        won(turn)
+        finish = won(turn)
         break
     if turn == "X":
         turn = "O"
     else:
         turn = "X"
+
+#if nobody won
+if not finish:
+    _=os.system("cls" if os.name=="nt" else "clear")
+    display_board()
+    print("\nNobody won!!!\n")
 os.system("pause")
 
+
 """
-Updates to do
---make rules
---add rule such that value cannot be entered in the same cell twice
+    Manikandan M
+    manikantanm07mk@gmail.com
+    https://github.com/MK-Manikandan
+    https://www.linkedin.com/in/manikandan--m
+    2nd June 2025
 """
