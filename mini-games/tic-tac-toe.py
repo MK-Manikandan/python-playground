@@ -16,11 +16,11 @@ board={
 #Printing out the sample board with position name
 print("\nPosition names:")
 print("\t╔═══╦═══╦═══╗")
-print(f"\t║ 1 ║ 2 ║ 3 ║")
+print("\t║ 1 ║ 2 ║ 3 ║")
 print("\t╠═══╬═══╬═══╣")
-print(f"\t║ 4 ║ 5 ║ 6 ║")
+print("\t║ 4 ║ 5 ║ 6 ║")
 print("\t╠═══╬═══╬═══╣")
-print(f"\t║ 7 ║ 8 ║ 9 ║")
+print("\t║ 7 ║ 8 ║ 9 ║")
 print("\t╚═══╩═══╩═══╝")
 os.system("pause")
 
@@ -34,6 +34,34 @@ def display_board():
     print("\t╠═══╬═══╬═══╣\t╠═══╬═══╬═══╣")
     print(f"\t║ 7 ║ 8 ║ 9 ║\t║ {board["7"]} ║ {board["8"]} ║ {board["9"]} ║")
     print("\t╚═══╩═══╩═══╝\t╚═══╩═══╩═══╝")
+
+#Game rules
+
+#dictionary containing the names of rows, columns and diagonals
+check_dict={
+    "row1" : ["1", "2", "3"], "row2" : ["4", "5", "6"], "row3" : ["7", "8", "9"],
+    "col1" : ["1", "4", "7"], "col2" : ["2", "5", "8"], "col3" : ["3", "6", "9"],
+    "dia1" : ["1", "5", "9"], "dia2" : ["3", "5", "7"]
+}
+
+#function to check if any rows or columns or diagonals are equal
+def check_if_equal(row_name):
+    if (board[check_dict[row_name[0]]] == board[check_dict[row_name[1]]]) and (board[check_dict[row_name[0]]] == board[check_dict[row_name[2]]]):
+        return True
+
+#function to find which all row and column to check for
+def check_dict_func(pos):
+    for key, value in check_dict.items():
+        if pos in value:
+            decision = check_if_equal(key)
+            if decision:
+                return decision
+        else:
+            continue
+
+#final function to run, if won
+def won(turn):
+    pass
 
 #Main loop
 turn = "X"
@@ -49,6 +77,10 @@ for i in range(9):
         else:
             break
     board[inp]=turn
+    checking = check_dict_func(inp)
+    if checking:
+        won(turn)
+        break
     if turn == "X":
         turn = "O"
     else:
