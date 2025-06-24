@@ -12,7 +12,8 @@ These scripts are primarily focused on:
 
 ## 📂 Structure
 
-Mini games- Contains small games I have tried making.
+Mini games- Small games I made during learning  
+Tools- Simple fun tools
 
 ## 🚀 Running the Scripts
 
