@@ -25,15 +25,19 @@ def add_input():
         txt = txt + k + ' : ' + str(v) + '\n'
     global show_label
     show_label = tk.Label(root, text = txt)
-    show_label.grid(row=2, column=0)
+    show_label.grid(row=2, column=1)
 
 def show():
+    try:
+        destroy_label()
+    except:
+        pass
     txt=''
     for k,v in inv.items():
         txt = txt + k + ' : ' + str(v) + '\n'
     global show_label
     show_label = tk.Label(root, text = txt)
-    show_label.grid(row=2, column=0)
+    show_label.grid(row=2, column=1)
 
 def clear():
     global inv
@@ -54,13 +58,13 @@ root.geometry('600x600')
 
 #creating buttons
 show_button = tk.Button(root, text='Refresh', command=show)
-show_button.grid(row=0, column=0)
+show_button.grid(row=0, column=1, pady= 10)
 input_button = tk.Button(root, text = 'Add item', command= add_input)
-input_button.grid(row=1, column=4)
+input_button.grid(row=1, column=4, padx= 10)
 clear_button = tk.Button(root, text = 'Clear List', command=clear)
-clear_button.grid(row = 0, column = 1)
+clear_button.grid(row = 0, column = 2)
 close_button = tk.Button(root, text = 'Close', command = close)
-close_button.grid(row = 0, column = 2)
+close_button.grid(row = 0, column = 3)
 
 #creating input
 item_input=tk.Entry(root)
