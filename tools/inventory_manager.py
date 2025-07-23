@@ -82,5 +82,10 @@ root.mainloop()
 with open('data.json', 'w') as file:
     json.dump(inv, file)
 
-#make a function for output
-#last commit was save in to and load out of a file
+'''
+    Manikandan M
+    manikantanm07mk@gmail.com
+    https://github.com/MK-Manikandan
+    https://www.linkedin.com/in/manikandan--m
+    26th June 2025
+'''

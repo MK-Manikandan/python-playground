@@ -66,3 +66,11 @@ while True:
             print('Invalid input\n')
             continue
         print(f'Output: {rom_to_num(inp.upper())}\n')
+
+'''
+    Manikandan M
+    manikantanm07mk@gmail.com
+    https://github.com/MK-Manikandan
+    https://www.linkedin.com/in/manikandan--m
+    24th June 2025
+'''
