@@ -25,7 +25,7 @@ print('Play - 1\nCustomize and play - 2')
 while True:
     try:
         game = int(input('Enter the choice: '))
-    except:
+    except Exception:
         print('Enter a valid input (1 or 2)')
         continue
     if game in [1, 2]: break
@@ -35,7 +35,7 @@ elif game == 2:
     while True:
         try:
             overs = int(input('Enter number of overs: '))
-        except:
+        except Exception:
             print('Enter a valid input (number)')
             continue
         if overs < 1:
@@ -45,7 +45,7 @@ elif game == 2:
     while True:
         try:
             wickets = int(input('Enter number of wickets: '))
-        except:
+        except Exception:
             print('Enter a valid input (number)')
             continue
         if overs < 1:
@@ -62,11 +62,14 @@ while True:
     if choice.lower() in ['h', 't']: break
     else: print('Wrong input!!! Try again.')
 toss = random.choice(coin)
-print('Tossing the coin', end = '')
-sleep(0.3)
-for i in range(3):
-    print('.', end = '')
-    sleep(0.3)
+print('Tossing the coin', end = '', flush = True)
+sleep(0.5)
+print('.', end = '', flush = True)
+sleep(0.5)
+print('.', end = '', flush = True)
+sleep(0.5)
+print('.', end = '', flush = True)
+sleep(0.5)
 print(f'\nToss = {toss}')
 sleep(0.5)
 if choice.lower() == toss:
@@ -75,7 +78,6 @@ if choice.lower() == toss:
 else:
     print('You lost the toss')
     toss = False
-sleep(0.5)
 
 #choosing batting or bowling
 if toss:
@@ -85,7 +87,6 @@ if toss:
         else: print('Wrong input!!!  Try again.')
     if choice == 'ba': print('You chose batting')
     else: print('You chose bowling')
-    sleep(2)
 else:
     #choosing reverse here because computer's batting is player's bowling
     if random.randint(1, 2) == 1:
@@ -94,11 +95,12 @@ else:
     else:
         choice = 'ba'
         print('Computer chose bowling')
-    sleep(2)
+system('pause')
 
 #One over for both bowling and batting
 def over(runs, what):
     for i in range(1, 7):
+        global wickets_left
         if runs < 0: result(False)
         if what == 'ba':
             print(f'\nRuns : {runs}')
@@ -108,7 +110,7 @@ def over(runs, what):
         while True:
             try:
                 bat = int(input('Your choice: '))
-            except:
+            except Exception:
                 print('Enter a valid input ( a number in 1 - 6)')
                 continue
             if bat in range(7): break
@@ -118,13 +120,16 @@ def over(runs, what):
         sleep(0.5)
         if bat == ball:
             print('Out')
-            return runs, True
+            wickets_left -= 1
+            if wickets_left == 0:
+                return runs
+            print(f'(Wickets left : {wickets_left})')
         else:
             if what == 'ba':
                 runs += bat
             else:
                 runs -= ball
-    return runs, False
+    return runs
 
 def result(a):
     if a:
@@ -138,27 +143,27 @@ def result(a):
 
 #Main game loop
 player_runs = 0
-computer_runs = 0
 #batting
 if choice == 'ba':
     for j in range(2):
+        global wickets_left
         wickets_left = wickets
         clear()
         header()
         if j == 0:
-            print('\n⟬ Your Batting ⟭')
+            print('\n__..-- Your Batting --..__')
         else:
-            print('\n⟬ Your Bowling ⟭')
+            print('\n__..-- Your Bowling --..__')
         for i in range(overs):
-            print(f'\n     Over {3}   (Wickets left : {3})\n-------------------------------------')
+            print(f'\n     Over {i + 1}   (Wickets left : {wickets_left})\n-------------------------------------')
             if j == 0:
-                player_runs, if_out = over(player_runs, 'ba')
+                player_runs = over(player_runs, 'ba')
             else:
-                player_runs, if_out = over(player_runs, 'bo')
-            if if_out:
-                wickets_left -= 1
+                player_runs = over(player_runs, 'bo')
             if wickets_left == 0:
-                print('Innings over')
+                print('----Innings over----')
+                system('pause')
                 break
         print('----Innings over----')
-print(f'Player = {player_runs}\nComputer = {computer_runs}')
+        system('pause')
+    result(False)
