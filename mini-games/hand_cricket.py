@@ -2,6 +2,7 @@ from os import system
 from time import sleep
 import random
 import platform
+import sys
 
 #to clear the screen
 def clear():
@@ -28,9 +29,12 @@ while True:
     except Exception:
         print('Enter a valid input (1 or 2)')
         continue
-    if game in [1, 2]: break
-    else: print('Wrong input!!!  Try again.')
-if game == 1: pass
+    if game in [1, 2]:
+        break
+    else:
+        print('Wrong input!!!  Try again.')
+if game == 1:
+    pass
 elif game == 2:
     while True:
         try:
@@ -59,8 +63,10 @@ coin = ['h', 't']
 print('Head or Tail')
 while True:
     choice = input('Enter h/t : ')
-    if choice.lower() in ['h', 't']: break
-    else: print('Wrong input!!! Try again.')
+    if choice.lower() in coin:
+        break
+    else:
+        print('Wrong input!!! Try again.')
 toss = random.choice(coin)
 print('Tossing the coin', end = '', flush = True)
 sleep(0.5)
@@ -78,15 +84,19 @@ if choice.lower() == toss:
 else:
     print('You lost the toss')
     toss = False
-
+sleep(0.7)
 #choosing batting or bowling
 if toss:
     while True:
         choice = input('\nChoose batting or bowling (ba/bo): ')
-        if choice.lower() in ['ba', 'bo']: break
-        else: print('Wrong input!!!  Try again.')
-    if choice == 'ba': print('You chose batting')
-    else: print('You chose bowling')
+        if choice.lower() in ['ba', 'bo']:
+            break
+        else:
+            print('Wrong input!!!  Try again.')
+    if choice == 'ba':
+        print('You chose batting')
+    else:
+        print('You chose bowling')
 else:
     #choosing reverse here because computer's batting is player's bowling
     if random.randint(1, 2) == 1:
@@ -101,69 +111,81 @@ system('pause')
 def over(runs, what):
     for i in range(1, 7):
         global wickets_left
-        if runs < 0: result(False)
-        if what == 'ba':
+        if runs < 0:
+            if choice == 'ba':
+                result(False)
+            else:
+                result(True)
+        if what == 'first_innings':
             print(f'\nRuns : {runs}')
         else:
-            print(f'\nRuns left to win : {runs}')
+            print(f'\nRuns left to win : {runs + 1}')
         print(f'---Ball {i}---')
         while True:
             try:
-                bat = int(input('Your choice: '))
+                player = int(input('Your choice: '))
             except Exception:
                 print('Enter a valid input ( a number in 1 - 6)')
                 continue
-            if bat in range(7): break
-            else: print('Wrong input!!!  Try again.')
-        ball = random.randint(0, 6)
-        print(f'Computer\'s choice : {ball}')
+            if player in range(7):
+                break
+            else:
+                print('Wrong input!!!  Try again.')
+        computer = random.randint(0, 6)
+        print(f'Computer\'s choice : {computer}')
         sleep(0.5)
-        if bat == ball:
-            print('Out')
+        if player == computer:
+            print('\nOut')
             wickets_left -= 1
             if wickets_left == 0:
                 return runs
             print(f'(Wickets left : {wickets_left})')
         else:
-            if what == 'ba':
-                runs += bat
+            if (what == 'first_innings' and choice == 'ba'):
+                runs += player
+            elif (what == 'first_innings' and choice == 'bo'):
+                runs += computer
+            elif (what == 'second_innings' and choice == 'ba'):
+                runs -= computer
             else:
-                runs -= ball
+                runs -= player
     return runs
 
 def result(a):
     if a:
         print('Congratulations. You have won')
         system('pause')
-        quit()
+        sys.exit()
     else:
         print('Sorry, You have lost')
         system('pause')
-        quit()
+        sys.exit()
 
 #Main game loop
 player_runs = 0
-#batting
-if choice == 'ba':
-    for j in range(2):
-        global wickets_left
-        wickets_left = wickets
-        clear()
-        header()
+
+for j in range(2):
+    global wickets_left
+    wickets_left = wickets
+    clear()
+    header()
+    if (j == 0 and choice == 'ba') or (j == 1 and choice == 'bo'):
+        print('\n__..-- Your Batting --..__')
+    else:
+        print('\n__..-- Your Bowling --..__')
+    if j == 1:
+        print(f'\nRuns to win : {player_runs + 1}')
+    for i in range(overs):
+        print(f'\n     Over {i + 1}   (Wickets left : {wickets_left})\n-------------------------------------')
         if j == 0:
-            print('\n__..-- Your Batting --..__')
+            player_runs = over(player_runs, 'first_innings')
         else:
-            print('\n__..-- Your Bowling --..__')
-        for i in range(overs):
-            print(f'\n     Over {i + 1}   (Wickets left : {wickets_left})\n-------------------------------------')
-            if j == 0:
-                player_runs = over(player_runs, 'ba')
-            else:
-                player_runs = over(player_runs, 'bo')
-            if wickets_left == 0:
-                print('----Innings over----')
-                system('pause')
-                break
-        print('----Innings over----')
-        system('pause')
+            player_runs = over(player_runs, 'second_innings')
+        if wickets_left == 0:
+            break
+    print('----Innings over----')
+    system('pause')
+if choice == 'ba':
+    result(True)
+else:
     result(False)
