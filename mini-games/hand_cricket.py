@@ -4,7 +4,7 @@ import random
 import platform
 import sys
 
-#to clear the screen
+#function to clear the screen
 def clear():
     if platform.system() == 'Windows':
         _ = system('cls')
@@ -19,15 +19,15 @@ def header():
     print('╚══════════════════════╝\n')
 header()
 
-#Starting the game
+#Starting the game with options to customize wickets and overs
 overs = 6
 wickets = 6
-print('Play - 1\nCustomize and play - 2')
+print('Start Playing(6 Overs, 6 Wickets) -> 1\nCustomize and play -> 2')
 while True:
     try:
-        game = int(input('Enter the choice: '))
+        game = int(input('\nEnter the choice: '))
     except Exception:
-        print('Enter a valid input (1 or 2)')
+        print('!!!Enter a valid input (1 or 2)')
         continue
     if game in [1, 2]:
         break
@@ -36,29 +36,30 @@ while True:
 if game == 1:
     pass
 elif game == 2:
+    print('\nYou can choose the number of overs and number of wickets')
     while True:
         try:
             overs = int(input('Enter number of overs: '))
         except Exception:
-            print('Enter a valid input (number)')
+            print('!!!Enter a valid input (number)')
             continue
         if overs < 1:
-            print('Enter a positive integer')
+            print('!!!Enter a positive integer')
             continue
         break
     while True:
         try:
             wickets = int(input('Enter number of wickets: '))
         except Exception:
-            print('Enter a valid input (number)')
+            print('!!!Enter a valid input (number)')
             continue
         if overs < 1:
-            print('Enter a positive integer')
+            print('!!!Enter a positive integer')
             continue
         break
-    
 
 #tossing the coin
+print('\n-----Coint toss-----')
 coin = ['h', 't']
 print('Head or Tail')
 while True:
@@ -68,7 +69,7 @@ while True:
     else:
         print('Wrong input!!! Try again.')
 toss = random.choice(coin)
-print('Tossing the coin', end = '', flush = True)
+print('\nTossing the coin', end = '', flush = True)
 sleep(0.5)
 print('.', end = '', flush = True)
 sleep(0.5)
@@ -76,15 +77,21 @@ print('.', end = '', flush = True)
 sleep(0.5)
 print('.', end = '', flush = True)
 sleep(0.5)
+print()
 print(f'\nToss = {toss}')
-sleep(0.5)
+sleep(0.8)
 if choice.lower() == toss:
-    print('You got the toss')
+    print('\n------------------------'
+          '\n**--You got the toss--**'
+          '\n------------------------\n')
     toss = True
 else:
-    print('You lost the toss')
+    print('\n------------------------'
+          '\n**--You lost the toss--**'
+          '\n------------------------\n')
     toss = False
 sleep(0.7)
+
 #choosing batting or bowling
 if toss:
     while True:
@@ -94,38 +101,41 @@ if toss:
         else:
             print('Wrong input!!!  Try again.')
     if choice == 'ba':
-        print('You chose batting')
+        print('**--You choose batting--**\n')
     else:
-        print('You chose bowling')
+        print('**--You choose bowling--**\n')
 else:
     #choosing reverse here because computer's batting is player's bowling
     if random.randint(1, 2) == 1:
         choice = 'bo'
-        print('Computer chose batting')
+        print('**--Computer choose batting--**\n')
     else:
         choice = 'ba'
-        print('Computer chose bowling')
+        print('**--Computer choose bowling--**\n')
 system('pause')
 
 #One over for both bowling and batting
+#Out mechanism is also added here
 def over(runs, what):
     for i in range(1, 7):
         global wickets_left
         if runs < 0:
+            print('\n---------Innings over---------\n')
+            system('pause')
             if choice == 'ba':
                 result(False)
             else:
                 result(True)
         if what == 'first_innings':
-            print(f'\nRuns : {runs}')
+            print(f'\n            Runs : {runs}')
         else:
             print(f'\nRuns left to win : {runs + 1}')
-        print(f'---Ball {i}---')
+        print(f'-------Ball  {i}-------')
         while True:
             try:
-                player = int(input('Your choice: '))
+                player = int(input('       Your choice: '))
             except Exception:
-                print('Enter a valid input ( a number in 1 - 6)')
+                print('Enter a valid input (0 - 6)')
                 continue
             if player in range(7):
                 break
@@ -133,31 +143,53 @@ def over(runs, what):
                 print('Wrong input!!!  Try again.')
         computer = random.randint(0, 6)
         print(f'Computer\'s choice : {computer}')
-        sleep(0.5)
+        sleep(0.7)
         if player == computer:
-            print('\nOut')
+            print('\n-----------------------\n'
+                  '****---   OUT   ---****'
+                  '\n-----------------------')
+            sleep(0.7)
             wickets_left -= 1
             if wickets_left == 0:
                 return runs
             print(f'(Wickets left : {wickets_left})')
         else:
             if (what == 'first_innings' and choice == 'ba'):
+                if player == 0:
+                    runs += computer
                 runs += player
             elif (what == 'first_innings' and choice == 'bo'):
+                if computer == 0:
+                    runs += player
                 runs += computer
             elif (what == 'second_innings' and choice == 'ba'):
+                if computer == 0:
+                    runs -= player
                 runs -= computer
             else:
+                if player == 0:
+                    runs -= computer
                 runs -= player
     return runs
 
+# winning or losing result interface
 def result(a):
+    clear()
+    header()
     if a:
-        print('Congratulations. You have won')
+        print('\n******************************************'
+              '\n***------------------------------------***'
+              '\n***--- Congratulations You have won ---***'
+              '\n***------------------------------------***'
+              '\n******************************************\n')
         system('pause')
         sys.exit()
     else:
-        print('Sorry, You have lost')
+        print('\n***********************************'
+              '\n***-----------------------------***'
+              '\n***---  Sorry You have lost  ---***'
+              '\n***-----------------------------***'
+              '\n***********************************\n')
         system('pause')
         sys.exit()
 
@@ -170,22 +202,35 @@ for j in range(2):
     clear()
     header()
     if (j == 0 and choice == 'ba') or (j == 1 and choice == 'bo'):
-        print('\n__..-- Your Batting --..__')
+        print('\n    \\\\\\\\-- Your Batting --////')
     else:
-        print('\n__..-- Your Bowling --..__')
+        print('\n    \\\\\\\\-- Your Bowling --////')
     if j == 1:
         print(f'\nRuns to win : {player_runs + 1}')
     for i in range(overs):
-        print(f'\n     Over {i + 1}   (Wickets left : {wickets_left})\n-------------------------------------')
+        print('\n---------------------------------'
+              f'\n     Over {i + 1}   (Wickets left : {wickets_left})'
+              '\n---------------------------------')
         if j == 0:
             player_runs = over(player_runs, 'first_innings')
         else:
             player_runs = over(player_runs, 'second_innings')
         if wickets_left == 0:
             break
-    print('----Innings over----')
+    print('\n---------Innings over---------\n')
     system('pause')
+
+# deciding result
 if choice == 'ba':
     result(True)
 else:
     result(False)
+
+
+"""
+    Manikandan M
+    manikantanm07mk@gmail.com
+    https://github.com/MK-Manikandan
+    https://www.linkedin.com/in/manikandan--m
+    25th Septmber 2025
+"""
