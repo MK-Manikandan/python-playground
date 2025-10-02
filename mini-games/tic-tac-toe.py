@@ -22,7 +22,13 @@ print("\t║ 4 ║ 5 ║ 6 ║")
 print("\t╠═══╬═══╬═══╣")
 print("\t║ 7 ║ 8 ║ 9 ║")
 print("\t╚═══╩═══╩═══╝")
-os.system("pause")
+
+def pause():
+    if os.name == 'nt': #Windows
+        os.system('pause')
+    else: #Unix
+        input('Press Enter to continue . . .')
+pause()
 
 #function to print out the board
 def display_board():
@@ -101,8 +107,8 @@ if not finish:
     _=os.system("cls" if os.name=="nt" else "clear")
     display_board()
     print("\nNobody won!!!\n")
-os.system("pause")
 
+pause()
 
 """
     Manikandan M

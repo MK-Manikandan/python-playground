@@ -1,3 +1,6 @@
+from os import system, name
+_=system('cls' if name == 'nt' else 'clear')
+
 # to check if the entered input is number or roman numeral
 def check_if_num(i):
     try:

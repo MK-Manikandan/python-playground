@@ -1,15 +1,14 @@
-from os import system
+import os
 from time import sleep
 import random
-import platform
 import sys
 
 #function to clear the screen
 def clear():
-    if platform.system() == 'Windows':
-        _ = system('cls')
-    else:
-        _ = system('clear')
+    if os.name == 'nt': #Windows
+        _ = os.system('cls')
+    else: #Unix
+        _ = os.system('clear')
 clear()
 
 #Header
@@ -18,6 +17,13 @@ def header():
     print('║     Hand Cricket     ║')
     print('╚══════════════════════╝\n')
 header()
+
+#Function to pause(to make it compatible for Unix)
+def pause():
+    if os.name == 'nt': #Windows
+        os.system('pause')
+    else: #Unix
+        input('Press Enter to continue . . .')
 
 #Starting the game with options to customize wickets and overs
 overs = 6
@@ -112,7 +118,7 @@ else:
     else:
         choice = 'ba'
         print('**--Computer choose bowling--**\n')
-system('pause')
+pause()
 
 #One over for both bowling and batting
 #Out mechanism is also added here
@@ -121,7 +127,7 @@ def over(runs, what):
         global wickets_left
         if runs < 0:
             print('\n---------Innings over---------\n')
-            system('pause')
+            pause()
             if choice == 'ba':
                 result(False)
             else:
@@ -135,12 +141,12 @@ def over(runs, what):
             try:
                 player = int(input('       Your choice: '))
             except Exception:
-                print('Enter a valid input (0 - 6)')
+                print('Enter a valid input (0 - 6)\n')
                 continue
             if player in range(7):
                 break
             else:
-                print('Wrong input!!!  Try again.')
+                print('Wrong input!!!  Try again.\n')
         computer = random.randint(0, 6)
         print(f'Computer\'s choice : {computer}')
         sleep(0.7)
@@ -182,7 +188,7 @@ def result(a):
               '\n***--- Congratulations You have won ---***'
               '\n***------------------------------------***'
               '\n******************************************\n')
-        system('pause')
+        pause()
         sys.exit()
     else:
         print('\n***********************************'
@@ -190,7 +196,7 @@ def result(a):
               '\n***---  Sorry You have lost  ---***'
               '\n***-----------------------------***'
               '\n***********************************\n')
-        system('pause')
+        pause()
         sys.exit()
 
 #Main game loop
@@ -218,7 +224,7 @@ for j in range(2):
         if wickets_left == 0:
             break
     print('\n---------Innings over---------\n')
-    system('pause')
+    pause()
 
 # deciding result
 if choice == 'ba':
